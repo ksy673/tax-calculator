@@ -7,16 +7,20 @@ public class Calc {
     	int tax;
     	double dTaxRate = 0;
     	
+    	if (price <= 0) {
+    		
+    		return null;
+    	}
     	
-        if(taxRate == "8%") {
-            dTaxRate = 0.08;
-            
-         }else if(taxRate == "10%") {
-            dTaxRate = 0.1;
-            
-         }
-       // cost = (int) (price/(1+dTaxRate));
-       // tax = (int) (cost*dTaxRate);
+    	
+    	if(taxRate.equals("8%")) {
+			dTaxRate = 0.08;
+			
+		}else if(taxRate.equals("10%")) {
+			dTaxRate = 0.1;
+		}
+        //cost = (int) (price/(1+dTaxRate));
+       //tax = (int) (cost*dTaxRate);
         
         tax = (int) Math.round(price / (1+dTaxRate) * dTaxRate);
         cost = price - tax;

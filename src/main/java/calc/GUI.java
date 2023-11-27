@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -74,14 +75,22 @@ class GUI extends JFrame implements ActionListener {
 	// when the botton is pressed
 	public void actionPerformed(ActionEvent arg0) {
 		if (arg0.getSource() == btnOutput) {
-			String target = price.getText().replaceAll("[^0-9]", "");
+			String target = price.getText().replaceAll("[^0-9(.)]", "");
 			String taxRate = (String) dropdown.getSelectedItem();
 			System.out.println(target);
 			try {
-				int[] calc = Calc.calculateTaxAndCost(Integer.parseInt((target == "") ? "0" : target),taxRate);
+				int intTarget = Integer.parseInt((target.equals("")) ? "0" : target);
+				
+				int[] calc = Calc.calculateTaxAndCost(intTarget,taxRate);
 				costText.setText(Integer.valueOf(calc[0]).toString());
 				taxText.setText(Integer.valueOf(calc[1]).toString());
-			} catch (Exception e) {
+				price.setText(Integer.valueOf(intTarget).toString());
+				
+			} catch(NumberFormatException nfe){
+	    		JOptionPane.showMessageDialog(this, "입력값을 확인해주세요.\n\r최대값: 2,147,483,647", "NumberFormatException", JOptionPane.WARNING_MESSAGE);
+	    	} catch(NullPointerException nfe){
+	    		JOptionPane.showMessageDialog(this, "입력값을 확인해주세요.", "NullPointerException", JOptionPane.WARNING_MESSAGE);
+	    	} catch (Exception e) {
 				System.out.println(e);
 				costText.setText("");
 				taxText.setText("");
